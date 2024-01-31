@@ -1,29 +1,11 @@
 pipeline {
-    agent {
-	label 'unix'
-    }
+    agent any
     stages {
-	stage('Check stuff') {
-	    steps {
-		script {
-			sh 'docker --version'
-			sh 'groups'
-		}
-	    }
-        }
-	stage('Build docker image') {
-	    steps {
-		script {
-			sh 'docker build --tag myapp:latest .'
-		}
-	    }
-        }
-	stage('Run docker container') {
-	    steps {
-		script {
-			sh 'docker run myapp'
-		}
-	    }
+        stage('test') {
+            steps {
+                sh 'python -m pip install --no-cache-dir pytest'
+                sh 'python -m pytest tests'
+            }
         }
     }
 }
